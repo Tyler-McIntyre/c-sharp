@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - Shield
   - Asteroid
+  - Enemy
+  - Bottom Boundry
   layers:
   - Default
   - TransparentFX

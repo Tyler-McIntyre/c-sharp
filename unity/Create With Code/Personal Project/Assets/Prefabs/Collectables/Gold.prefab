@@ -143,6 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2513e2a00aae7c40816b47dac6288cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
+  direction: {x: 0, y: 0, z: 0}
   spawnManager: {fileID: 0}
 --- !u!54 &-3966266724983132550
 Rigidbody:
@@ -169,5 +171,5 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 36
   m_CollisionDetection: 0

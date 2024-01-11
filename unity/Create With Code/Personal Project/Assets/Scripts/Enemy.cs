@@ -17,22 +17,30 @@ public class Enemy : MonoBehaviour
         enemyRb.velocity = direction * speed;
         // Set the y position to 1
         transform.position = new Vector3(transform.position.x, 1f, transform.position.z);
+
+        // destory if it leaves the area
+        if (transform.position.z > 41)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         bool isPlayer = collision.gameObject.CompareTag("Player");
-        if (!isPlayer)
-        {
-            // Reflect the direction based on the collision, normalize it, and set the new direction
-            direction = Vector3.Reflect(direction, collision.contacts[0].normal).normalized;
-            // Ensure the y-component is zero to maintain height
-            direction.y = 0f;
 
-            // Apply the new direction to the velocity
-            enemyRb.velocity = direction * speed;
-        } 
-        else if (isPlayer)
+        // bounce off anything that isn't the player
+        //if (!isPlayer)
+        //{
+        //    // Reflect the direction based on the collision, normalize it, and set the new direction
+        //    direction = Vector3.Reflect(direction, collision.contacts[0].normal).normalized;
+        //    // Ensure the y-component is zero to maintain height
+        //    direction.y = 0f;
+
+        //    // Apply the new direction to the velocity
+        //    enemyRb.velocity = direction * speed;
+        //} 
+        if (isPlayer)
         {
             Destroy(gameObject);
         }

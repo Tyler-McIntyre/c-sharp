@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -27,10 +26,10 @@ public class PlayerController : MonoBehaviour
     void MovePlayer()
     {
         float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxis("Horizontal");
 
-        Vector3 movement = mainCamera.transform.forward * speed * verticalInput;
-
-        playerRb.AddForce(movement, ForceMode.Impulse);
+        playerRb.AddForce(-verticalInput * speed * Vector3.forward, ForceMode.Impulse);
+        playerRb.AddForce(horizontalInput * speed * Vector3.left, ForceMode.Impulse);
 
         // Apply damping to control deceleration
         playerRb.velocity -= playerRb.velocity * damping * Time.deltaTime;
@@ -61,4 +60,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    // TODO: add projectiles
 }
