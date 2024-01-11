@@ -15,8 +15,8 @@ public class SpawnManager : MonoBehaviour
     private int minSpeed = 10;
     private int maxSpeed = 20;
 
-    private float minXBound = 11;
-    private float maxXBound = 85;
+    private float minXBound = 10;
+    private float maxXBound = 84;
     private float zBound = 98;
 
     private int maxY = 3;
@@ -34,7 +34,7 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // need logic for wave count
+        // TODO: need logic for wave count
         if (gameManager.score > gameManager.waveCount * 2)
         {
             gameManager.waveCount++;
@@ -69,12 +69,13 @@ public class SpawnManager : MonoBehaviour
                 float randomXPos = Random.Range(minXBound, maxXBound);
 
                 int randomPrefabIndex = Random.Range(0, 2);
+                GameObject asteroidToSpawn = asteroidPrefab[randomPrefabIndex];
 
                 // Instantiate the asteroid
                 GameObject newAsteroid = Instantiate(
-                    asteroidPrefab[randomPrefabIndex],
+                    asteroidToSpawn,
                     new Vector3(randomXPos, maxY, -zBound),
-                    transform.rotation
+                    asteroidToSpawn.transform.rotation
                     );
 
                 Enemy asteroidScript = newAsteroid.GetComponent<Enemy>();
@@ -104,7 +105,7 @@ public class SpawnManager : MonoBehaviour
                 GameObject newCollectable = Instantiate(
                     collectablePrefab,
                     new Vector3(randomXPos, maxY, -zBound),
-                    transform.rotation
+                    collectablePrefab.transform.rotation
                     );
 
                 Collectable collectableScript = newCollectable.GetComponent<Collectable>();
@@ -134,7 +135,7 @@ public class SpawnManager : MonoBehaviour
                 GameObject newPowerup = Instantiate(
                     powerupPrefab,
                     new Vector3(randomXPos, maxY, -zBound),
-                    transform.rotation
+                    powerupPrefab.transform.rotation
                     );
 
                 Powerup powerupScript = newPowerup.GetComponent<Powerup>();

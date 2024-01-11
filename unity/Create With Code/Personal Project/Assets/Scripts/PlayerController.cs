@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public bool hasShield;
 
-    public GameManager gameManager;
+    private GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
+        // TODO: possibly add forward and back motion
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
 
