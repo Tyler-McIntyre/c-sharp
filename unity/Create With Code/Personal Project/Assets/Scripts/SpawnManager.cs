@@ -1,10 +1,9 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject asteroidPrefab;
+    public GameObject[] asteroidPrefab;
     public GameObject powerupPrefab;
     public GameObject collectablePrefab;
     public GameObject playerPrefab;
@@ -16,18 +15,18 @@ public class SpawnManager : MonoBehaviour
     private int minSpeed = 10;
     private int maxSpeed = 20;
 
-    private float xBound = 40;
-    private float zBound = 40;
-    private int maxY = 1;
+    private float minXBound = 11;
+    private float maxXBound = 85;
+    private float zBound = 98;
 
-    public int waveCount = 1;
+    private int maxY = 3;
 
-    public int score = 0;
-    public bool gameOver = false;
+    private GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         Instantiate(playerPrefab, playerPrefab.transform.position, playerPrefab.transform.rotation);
         SpawnGameObjects();
     }
@@ -36,9 +35,9 @@ public class SpawnManager : MonoBehaviour
     void Update()
     {
         // need logic for wave count
-        if (score > waveCount * 2)
+        if (gameManager.score > gameManager.waveCount * 2)
         {
-            waveCount++;
+            gameManager.waveCount++;
         }
 
         if (Input.GetKeyUp(KeyCode.Space) && !GameObject.FindGameObjectWithTag("Player"))
@@ -50,18 +49,30 @@ public class SpawnManager : MonoBehaviour
 
     // TODO: Should be based on the time ellapsed
     // TODO: Add different types of asteroids and health
-    IEnumerator SpawnAsteroids(int asteroidsToSpawn = 1)
+    IEnumerator SpawnAsteroids()
     {
-        while (!gameOver)
+        while (!gameManager.gameOver)
         {
+            int asteroidsToSpawn = 1;
             // multiplies the # of asteroids to spawn by the wave count
-            for (int i = 0; i < asteroidsToSpawn * waveCount * 2; i++)
+            if (gameManager.timer % 20 == 0)
             {
-                float randomXPos = Random.Range(-xBound, xBound);
+                asteroidsToSpawn = (asteroidsToSpawn * gameManager.waveCount) + gameManager.waveCount;
+            } 
+            else
+            {
+                asteroidsToSpawn *= gameManager.waveCount;
+            }
+
+            for (int i = 0; i < asteroidsToSpawn; i++)
+            {
+                float randomXPos = Random.Range(minXBound, maxXBound);
+
+                int randomPrefabIndex = Random.Range(0, 2);
 
                 // Instantiate the asteroid
                 GameObject newAsteroid = Instantiate(
-                    asteroidPrefab,
+                    asteroidPrefab[randomPrefabIndex],
                     new Vector3(randomXPos, maxY, -zBound),
                     transform.rotation
                     );
@@ -82,11 +93,13 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnCollectables()
     {
-        while (!gameOver)
+        while (!gameManager.gameOver)
         {
-            for (int i = 0; i < waveCount; i++)
+            int collectablesToSpawn = gameManager.waveCount < 3 ? 2 : gameManager.waveCount / 2;
+
+            for (int i = 0; i < collectablesToSpawn; i++)
             {
-                float randomXPos = Random.Range(-xBound, xBound);
+                float randomXPos = Random.Range(minXBound, maxXBound);
 
                 GameObject newCollectable = Instantiate(
                     collectablePrefab,
@@ -110,13 +123,13 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerups()
     {
-        while (!gameOver)
+        while (!gameManager.gameOver)
         {
-            int powerupCount = waveCount > 5 ? 1 : Random.Range(1, 4);
+            int powerupCount = gameManager.waveCount > 5 ? 1 : Random.Range(1, 4);
 
             for (int i = 0; i < powerupCount; i++)
             {
-                float randomXPos = Random.Range(-xBound, xBound);
+                float randomXPos = Random.Range(minXBound, maxXBound);
 
                 GameObject newPowerup = Instantiate(
                     powerupPrefab,

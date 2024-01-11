@@ -4,13 +4,13 @@ public class Collectable : MonoBehaviour
 {
     public float speed;
     public Vector3 direction;
-    public SpawnManager spawnManager;
+    public GameManager gameManager;
     private Rigidbody collectableRb;
 
     // Start is called before the first frame update
     void Start()
     {
-        spawnManager = FindAnyObjectByType<SpawnManager>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         collectableRb = GetComponent<Rigidbody>();
     }
 
@@ -28,14 +28,11 @@ public class Collectable : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
-
-            // increment the score
-            spawnManager.score++;
         }
     }
 

@@ -29,17 +29,6 @@ public class Enemy : MonoBehaviour
     {
         bool isPlayer = collision.gameObject.CompareTag("Player");
 
-        // bounce off anything that isn't the player
-        //if (!isPlayer)
-        //{
-        //    // Reflect the direction based on the collision, normalize it, and set the new direction
-        //    direction = Vector3.Reflect(direction, collision.contacts[0].normal).normalized;
-        //    // Ensure the y-component is zero to maintain height
-        //    direction.y = 0f;
-
-        //    // Apply the new direction to the velocity
-        //    enemyRb.velocity = direction * speed;
-        //} 
         if (isPlayer)
         {
             Destroy(gameObject);

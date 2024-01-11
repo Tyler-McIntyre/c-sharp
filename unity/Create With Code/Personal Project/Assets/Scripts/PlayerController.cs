@@ -5,16 +5,17 @@ public class PlayerController : MonoBehaviour
     public float speed = 1f;
     public int damping = 25;
     private Rigidbody playerRb;
-    private Camera mainCamera;
     public int playerShield = 0;
 
     public bool hasShield;
 
+    public GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody>();
-        mainCamera = Camera.main;
     }
 
     // Update is called once per frame
@@ -58,6 +59,11 @@ public class PlayerController : MonoBehaviour
                 Destroy(gameObject);
                 Debug.Log("Game Over Man! Game Over!");
             }
+        }
+        else if (collision.gameObject.CompareTag("Gold"))
+        {
+            gameManager.score++;
+            Debug.Log(gameManager.score);
         }
     }
 
