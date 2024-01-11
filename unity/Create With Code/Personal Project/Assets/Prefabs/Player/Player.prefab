@@ -168,7 +168,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34dccae906d1b7b44a17b163bcee0fbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.5
+  speed: 20
   damping: 25
   playerShield: 0
   hasShield: 0
+  minZBound: -39
+  maxZBound: -1.5
+  minXBound: 7.5
+  maxXBound: 85

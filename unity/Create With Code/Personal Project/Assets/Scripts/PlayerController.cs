@@ -1,24 +1,27 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 1f;
+    public float speed = 20f;
     public int damping = 25;
     private Rigidbody playerRb;
     public int playerShield = 0;
-
     public bool hasShield;
-
     private GameManager gameManager;
 
-    // Start is called before the first frame update
+    public float minZBound = -39f;  
+    public float maxZBound = -1.5f;
+
+    public float minXBound = 7.5f;
+    public float maxXBound = 85f;
+
     void Start()
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         MovePlayer();
@@ -26,12 +29,18 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        // TODO: possibly add forward and back motion
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
 
-        playerRb.AddForce(-verticalInput * speed * Vector3.forward, ForceMode.Impulse);
-        playerRb.AddForce(horizontalInput * speed * Vector3.left, ForceMode.Impulse);
+        // Calculate the new position after adding force
+        Vector3 newPosition = playerRb.position + (-verticalInput * speed * Vector3.forward + horizontalInput * speed * Vector3.left) * Time.deltaTime;
+
+        // Clamp the new position within the specified bounds
+        newPosition.z = Mathf.Clamp(newPosition.z, minZBound, maxZBound);
+        newPosition.x = Mathf.Clamp(newPosition.x, minXBound, maxXBound);
+
+        // Apply the clamped position as the new position
+        playerRb.MovePosition(newPosition);
 
         // Apply damping to control deceleration
         playerRb.velocity -= playerRb.velocity * damping * Time.deltaTime;
