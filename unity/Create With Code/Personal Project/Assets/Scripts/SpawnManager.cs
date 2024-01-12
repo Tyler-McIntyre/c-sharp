@@ -34,16 +34,9 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // TODO: need logic for wave count
         if (gameManager.score > gameManager.waveCount * 2)
         {
             gameManager.waveCount++;
-        }
-
-        if (Input.GetKeyUp(KeyCode.Space) && !GameObject.FindGameObjectWithTag("Player"))
-        {
-            Debug.Log("Respawn Player");
-            Instantiate(playerPrefab, playerPrefab.transform.position, playerPrefab.transform.rotation);
         }
     }
 

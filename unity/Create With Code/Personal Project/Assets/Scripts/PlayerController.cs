@@ -1,13 +1,14 @@
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 20f;
-    public int damping = 25;
+    private float speed = 20f;
+    private int damping = 25;
     private Rigidbody playerRb;
-    public int playerShield = 0;
-    public bool hasShield;
+    private int playerShield = 0;
+    public Slider shieldSlider;
+
     private GameManager gameManager;
 
     public float minZBound = -39f;  
@@ -18,12 +19,14 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        shieldSlider = GameObject.Find("Shield Slider").GetComponent<Slider>();
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
+        shieldSlider.value = playerShield;
         MovePlayer();
     }
 
@@ -48,31 +51,29 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
         if (collision.gameObject.CompareTag("Shield"))
         {
             Debug.Log("Powerup obtained");
             playerShield++;
-            hasShield = true;
+            shieldSlider.value = playerShield;
         }
-        else if (collision.gameObject.CompareTag("Asteroid"))
+        
+        if (collision.gameObject.CompareTag("Asteroid"))
         {
-            playerShield--;
+            // shield drained, game over
             if (playerShield == 0)
             {
-                hasShield = false;
-                Debug.Log("Shield Depleted!");
-            }
-
-            if (playerShield < 0)
-            {
                 Destroy(gameObject);
-                Debug.Log("Game Over Man! Game Over!");
+                gameManager.gameOver = true;
+                return;
             }
+            playerShield--;
+            shieldSlider.value = playerShield;
         }
-        else if (collision.gameObject.CompareTag("Gold"))
+
+        if (collision.gameObject.CompareTag("Gold"))
         {
-            gameManager.score++;
+            gameManager.score++;    
             Debug.Log(gameManager.score);
         }
     }

@@ -11,6 +11,9 @@ TagManager:
   - Enemy
   - Bottom Boundry
   - Space Panel
+  - Game Over UI
+  - Restart Button
+  - Shield Slider
   layers:
   - Default
   - TransparentFX
