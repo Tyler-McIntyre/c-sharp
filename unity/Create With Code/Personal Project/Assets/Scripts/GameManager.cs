@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public bool gameOver = false;
-    public bool isActive = false;
+    public bool gameOver = true;
+    public bool shouldStartGame = false;
+
+    public DifficultySetting difficultySetting = DifficultySetting.Undefined;
 
     public float timer = 0;
     public int waveCount = 1;
@@ -14,30 +16,30 @@ public class GameManager : MonoBehaviour
 
     public Button restartButton;
     public TextMeshProUGUI gameOverText;
-    public TextMeshProUGUI scoreText;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        restartButton = restartButton.GetComponent<Button>();
-        gameOverText = gameOverText.GetComponent<TextMeshProUGUI>();
-        scoreText = scoreText.GetComponent<TextMeshProUGUI>();
-        scoreText.text = $"Score: {score}";
-    }
+    private bool inGameUiIsActive = false;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI shieldText;
+    public GameObject shieldSlider;
 
     // Update is called once per frame
     void Update()
     {
-        // increment the timer between the time this frame and the last frame was updated
-        timer += Time.deltaTime;
-
-        if (gameOver)
+        shouldStartGame = difficultySetting != DifficultySetting.Undefined;
+        if (shouldStartGame && !gameOver)
         {
-            restartButton.gameObject.SetActive(true);
-            gameOverText.gameObject.SetActive(true);
-        }
+            if (!gameOver)
+            {
+                UpdateInGameUI();
+            }
 
-        scoreText.text = $"Score: {score}";
+            if (gameOver)
+            {
+                ShowGameOverUI();
+            }
+
+            scoreText.text = $"Score: {score}";
+        }
     }
 
     public void RestartGame()
@@ -45,8 +47,46 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void StartGame()
+    private void ShowGameOverUI()
     {
-        isActive = true;
+        restartButton.gameObject.SetActive(true);
+        gameOverText.gameObject.SetActive(true);
+    }
+
+    private void UpdateInGameUI()
+    {
+        // enable in game UI
+        if (!inGameUiIsActive)
+        {
+            ShowInGameUI();
+        }
+
+        UpdateShieldSlider();
+
+        // increment the timer between the time this frame and the last frame was updated
+        // Can be used to help calculate the best score (more points in less time is better)
+        timer += Time.deltaTime;
+    }
+
+    private void ShowInGameUI()
+    {
+        shieldSlider.gameObject.SetActive(true);
+        shieldText.gameObject.SetActive(true);
+        scoreText.gameObject.SetActive(true);
+        inGameUiIsActive = true;
+    }
+
+    private void HideInGameUI()
+    {
+        shieldSlider.gameObject.SetActive(false);
+        shieldText.gameObject.SetActive(false);
+        scoreText.gameObject.SetActive(false);
+        inGameUiIsActive = false;
+    }
+
+    private void UpdateShieldSlider() 
+    {
+        int playerShield = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().playerShield;
+        shieldSlider.GetComponent<Slider>().value = playerShield;
     }
 }

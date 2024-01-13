@@ -1,13 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     private float speed = 20f;
     private int damping = 25;
     private Rigidbody playerRb;
-    private int playerShield = 0;
-    public Slider shieldSlider;
+    public int playerShield = 0;
 
     private GameManager gameManager;
 
@@ -19,14 +17,12 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        shieldSlider = GameObject.Find("Shield Slider").GetComponent<Slider>();
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        shieldSlider.value = playerShield;
         MovePlayer();
     }
 
@@ -53,22 +49,22 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Shield"))
         {
-            Debug.Log("Powerup obtained");
             playerShield++;
-            shieldSlider.value = playerShield;
+            Debug.Log($"Powerup obtained {playerShield}");
         }
-        
+
         if (collision.gameObject.CompareTag("Asteroid"))
         {
             // shield drained, game over
             if (playerShield == 0)
             {
                 Destroy(gameObject);
+
+                // end game
                 gameManager.gameOver = true;
                 return;
             }
             playerShield--;
-            shieldSlider.value = playerShield;
         }
 
         if (collision.gameObject.CompareTag("Gold"))

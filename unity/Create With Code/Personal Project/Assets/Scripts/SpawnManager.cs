@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -27,8 +28,8 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        Instantiate(playerPrefab, playerPrefab.transform.position, playerPrefab.transform.rotation);
-        SpawnGameObjects();
+        StartCoroutine(SpawnGameObjects());
+        
     }
 
     // Update is called once per frame
@@ -145,10 +146,23 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    void SpawnGameObjects()
+    IEnumerator SpawnGameObjects()
     {
-        StartCoroutine(SpawnPowerups());
-        StartCoroutine(SpawnCollectables());
-        StartCoroutine(SpawnAsteroids());
+        if (gameManager.shouldStartGame)
+        {
+            if (!gameManager.gameOver)
+            {
+                StartCoroutine(SpawnPowerups());
+                StartCoroutine(SpawnCollectables());
+                StartCoroutine(SpawnAsteroids());
+            }
+
+            if (!GameObject.FindGameObjectWithTag("Player") && !gameManager.gameOver)
+            {
+                Instantiate(playerPrefab, playerPrefab.transform.position, playerPrefab.transform.rotation);
+            }
+        }
+
+        yield return null;
     }
 }
