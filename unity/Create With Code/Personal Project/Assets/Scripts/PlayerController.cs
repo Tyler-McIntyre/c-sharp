@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     private GameManager gameManager;
 
-    public float minZBound = -39f;  
+    public float minZBound = -39f;
     public float maxZBound = -1.5f;
 
     public float minXBound = 7.5f;
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Gold"))
         {
-            gameManager.score++;    
+            gameManager.score++;
             Debug.Log(gameManager.score);
         }
     }

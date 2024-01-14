@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -7,7 +6,6 @@ public class SpawnManager : MonoBehaviour
     public GameObject[] asteroidPrefab;
     public GameObject powerupPrefab;
     public GameObject collectablePrefab;
-    public GameObject playerPrefab;
 
     private int enemySpawnRate = 2;
     private int collectableSpawnRate = 5;
@@ -29,30 +27,19 @@ public class SpawnManager : MonoBehaviour
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         StartCoroutine(SpawnGameObjects());
-        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (gameManager.score > gameManager.waveCount * 2)
-        {
-            gameManager.waveCount++;
-        }
-    }
-
-    // TODO: Should be based on the time ellapsed
-    // TODO: Add different types of asteroids and health
     IEnumerator SpawnAsteroids()
     {
         while (!gameManager.gameOver)
         {
             int asteroidsToSpawn = 1;
-            // multiplies the # of asteroids to spawn by the wave count
+            
+            // TODO: Multiply asteroids spawned over time and difficulty settings
             if (gameManager.timer % 20 == 0)
             {
                 asteroidsToSpawn = (asteroidsToSpawn * gameManager.waveCount) + gameManager.waveCount;
-            } 
+            }
             else
             {
                 asteroidsToSpawn *= gameManager.waveCount;
@@ -118,6 +105,8 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerups()
     {
+        GameManager gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
         while (!gameManager.gameOver)
         {
             int powerupCount = gameManager.waveCount > 5 ? 1 : Random.Range(1, 4);
@@ -148,19 +137,11 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnGameObjects()
     {
-        if (gameManager.shouldStartGame)
+        if (!gameManager.gameOver)
         {
-            if (!gameManager.gameOver)
-            {
-                StartCoroutine(SpawnPowerups());
-                StartCoroutine(SpawnCollectables());
-                StartCoroutine(SpawnAsteroids());
-            }
-
-            if (!GameObject.FindGameObjectWithTag("Player") && !gameManager.gameOver)
-            {
-                Instantiate(playerPrefab, playerPrefab.transform.position, playerPrefab.transform.rotation);
-            }
+            StartCoroutine(SpawnPowerups());
+            StartCoroutine(SpawnCollectables());
+            StartCoroutine(SpawnAsteroids());
         }
 
         yield return null;

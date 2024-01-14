@@ -6,39 +6,44 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public bool gameOver = true;
-    public bool shouldStartGame = false;
+    private bool inGameUiIsActive = false;
 
     public DifficultySetting difficultySetting = DifficultySetting.Undefined;
 
     public float timer = 0;
     public int waveCount = 1;
     public int score = 0;
-
-    public Button restartButton;
-    public TextMeshProUGUI gameOverText;
-
-    private bool inGameUiIsActive = false;
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI shieldText;
-    public GameObject shieldSlider;
+    
+    public GameObject playerPrefab;
+    public GameObject startScreenUi;
+    public GameObject inGameUi;
+    public GameObject gameOverUi;
 
     // Update is called once per frame
     void Update()
     {
-        shouldStartGame = difficultySetting != DifficultySetting.Undefined;
+        bool shouldStartGame = difficultySetting != DifficultySetting.Undefined;
         if (shouldStartGame && !gameOver)
         {
-            if (!gameOver)
+            if (!GameObject.FindGameObjectWithTag("Player") && !gameOver)
             {
-                UpdateInGameUI();
+                Instantiate(playerPrefab, playerPrefab.transform.position, playerPrefab.transform.rotation);
             }
 
-            if (gameOver)
-            {
-                ShowGameOverUI();
-            }
+            UpdateInGameUI();
 
+            TextMeshProUGUI scoreText = inGameUi.GetComponentsInChildren<TextMeshProUGUI>()[0];
             scoreText.text = $"Score: {score}";
+
+            if (score > waveCount * 2)
+            {
+                waveCount++;
+            }
+        }
+
+        if (gameOver)
+        {
+            ShowGameOverUI();
         }
     }
 
@@ -49,8 +54,7 @@ public class GameManager : MonoBehaviour
 
     private void ShowGameOverUI()
     {
-        restartButton.gameObject.SetActive(true);
-        gameOverText.gameObject.SetActive(true);
+        gameOverUi.gameObject.SetActive(true);
     }
 
     private void UpdateInGameUI()
@@ -59,6 +63,7 @@ public class GameManager : MonoBehaviour
         if (!inGameUiIsActive)
         {
             ShowInGameUI();
+            HideStartScreenUI();
         }
 
         UpdateShieldSlider();
@@ -70,23 +75,55 @@ public class GameManager : MonoBehaviour
 
     private void ShowInGameUI()
     {
-        shieldSlider.gameObject.SetActive(true);
-        shieldText.gameObject.SetActive(true);
-        scoreText.gameObject.SetActive(true);
+        inGameUi.gameObject.SetActive(true);
         inGameUiIsActive = true;
     }
 
-    private void HideInGameUI()
+    private void HideStartScreenUI()
     {
-        shieldSlider.gameObject.SetActive(false);
-        shieldText.gameObject.SetActive(false);
-        scoreText.gameObject.SetActive(false);
-        inGameUiIsActive = false;
+        startScreenUi.gameObject.SetActive(false);
     }
 
-    private void UpdateShieldSlider() 
+    private void UpdateShieldSlider()
     {
         int playerShield = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().playerShield;
-        shieldSlider.GetComponent<Slider>().value = playerShield;
+        Slider shieldSlider = inGameUi.GetComponentInChildren<Slider>();
+        shieldSlider.value = playerShield;
+    }
+
+    public void SetDifficulty(int difficulty)
+    {
+        difficultySetting = (DifficultySetting)difficulty;
+        gameOver = false;
+        // clear the screen
+        FreshStart();
+
+        Debug.Log(difficultySetting);
+    }
+
+    private void FreshStart()
+    {
+        // wipe screen
+        GameObject[] asteroids = GameObject.FindGameObjectsWithTag("Asteroid");
+
+        foreach (GameObject go in asteroids)
+        {
+            Destroy(go);
+        }
+
+        // wipe screen
+        GameObject[] gold = GameObject.FindGameObjectsWithTag("Gold");
+
+        foreach (GameObject go in gold)
+        {
+            Destroy(go);
+        }
+
+        GameObject[] shields = GameObject.FindGameObjectsWithTag("Shield");
+
+        foreach (GameObject go in shields)
+        {
+            Destroy(go);
+        }
     }
 }
