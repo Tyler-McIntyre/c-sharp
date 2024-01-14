@@ -14,10 +14,6 @@ public class SpawnManager : MonoBehaviour
     private int minSpeed = 10;
     private int maxSpeed = 20;
 
-    private float minXBound = 10;
-    private float maxXBound = 84;
-    private float zBound = 98;
-
     private int maxY = 3;
 
     private GameManager gameManager;
@@ -33,21 +29,16 @@ public class SpawnManager : MonoBehaviour
     {
         while (!gameManager.gameOver)
         {
-            int asteroidsToSpawn = 1;
-            
-            // TODO: Multiply asteroids spawned over time and difficulty settings
-            if (gameManager.timer % 20 == 0)
-            {
-                asteroidsToSpawn = (asteroidsToSpawn * gameManager.waveCount) + gameManager.waveCount;
-            }
-            else
-            {
-                asteroidsToSpawn *= gameManager.waveCount;
-            }
+            // Allows asteroids to be spawned on the start screen 
+            DifficultySetting difficultySetting = 
+                gameManager.difficultySetting == DifficultySetting.Undefined ? 
+                DifficultySetting.Easy : gameManager.difficultySetting;
+
+            int asteroidsToSpawn = (int)difficultySetting * gameManager.waveCount;
 
             for (int i = 0; i < asteroidsToSpawn; i++)
             {
-                float randomXPos = Random.Range(minXBound, maxXBound);
+                float randomXPos = Random.Range(gameManager.minXBound, gameManager.maxXBound);
 
                 int randomPrefabIndex = Random.Range(0, 2);
                 GameObject asteroidToSpawn = asteroidPrefab[randomPrefabIndex];
@@ -55,7 +46,7 @@ public class SpawnManager : MonoBehaviour
                 // Instantiate the asteroid
                 GameObject newAsteroid = Instantiate(
                     asteroidToSpawn,
-                    new Vector3(randomXPos, maxY, -zBound),
+                    new Vector3(randomXPos, maxY, gameManager.minZBound),
                     asteroidToSpawn.transform.rotation
                     );
 
@@ -81,11 +72,11 @@ public class SpawnManager : MonoBehaviour
 
             for (int i = 0; i < collectablesToSpawn; i++)
             {
-                float randomXPos = Random.Range(minXBound, maxXBound);
+                float randomXPos = Random.Range(gameManager.minXBound, gameManager.maxXBound);
 
                 GameObject newCollectable = Instantiate(
                     collectablePrefab,
-                    new Vector3(randomXPos, maxY, -zBound),
+                    new Vector3(randomXPos, maxY, gameManager.minZBound),
                     collectablePrefab.transform.rotation
                     );
 
@@ -105,19 +96,17 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerups()
     {
-        GameManager gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-
         while (!gameManager.gameOver)
         {
             int powerupCount = gameManager.waveCount > 5 ? 1 : Random.Range(1, 4);
 
             for (int i = 0; i < powerupCount; i++)
             {
-                float randomXPos = Random.Range(minXBound, maxXBound);
+                float randomXPos = Random.Range(gameManager.minXBound, gameManager.maxXBound);
 
                 GameObject newPowerup = Instantiate(
                     powerupPrefab,
-                    new Vector3(randomXPos, maxY, -zBound),
+                    new Vector3(randomXPos, maxY, gameManager.minZBound),
                     powerupPrefab.transform.rotation
                     );
 

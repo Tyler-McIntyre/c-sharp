@@ -5,9 +5,12 @@ public class Enemy : MonoBehaviour
     public float speed;
     public Vector3 direction;
     private Rigidbody enemyRb;
+    private GameManager gameManager;
+    public AudioClip audioClip;
 
     private void Start()
     {
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         enemyRb = GetComponent<Rigidbody>();
     }
 
@@ -19,7 +22,7 @@ public class Enemy : MonoBehaviour
         transform.position = new Vector3(transform.position.x, 1f, transform.position.z);
 
         // destory if it leaves the area
-        if (transform.position.z > 41)
+        if (transform.position.z > gameManager.maxZBound)
         {
             Destroy(gameObject);
         }

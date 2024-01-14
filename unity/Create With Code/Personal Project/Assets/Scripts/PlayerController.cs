@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,17 +7,15 @@ public class PlayerController : MonoBehaviour
     private int damping = 25;
     private Rigidbody playerRb;
     public int playerShield = 0;
-
     private GameManager gameManager;
-
-    public float minZBound = -39f;
-    public float maxZBound = -1.5f;
-
-    public float minXBound = 7.5f;
-    public float maxXBound = 85f;
+    private AudioSource gameOverAudio;
+    private AudioSource asteroidCollisionAudio;
 
     void Start()
     {
+        GameObject audioClips = GameObject.Find("Audio Clips");
+        gameOverAudio = audioClips.GetComponentsInChildren<AudioSource>()[0];
+        asteroidCollisionAudio = audioClips.GetComponentsInChildren<AudioSource>()[1];
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerRb = GetComponent<Rigidbody>();
     }
@@ -35,8 +34,8 @@ public class PlayerController : MonoBehaviour
         Vector3 newPosition = playerRb.position + (-verticalInput * speed * Vector3.forward + horizontalInput * speed * Vector3.left) * Time.deltaTime;
 
         // Clamp the new position within the specified bounds
-        newPosition.z = Mathf.Clamp(newPosition.z, minZBound, maxZBound);
-        newPosition.x = Mathf.Clamp(newPosition.x, minXBound, maxXBound);
+        newPosition.z = Mathf.Clamp(newPosition.z, gameManager.playerMinZBound, gameManager.playerMaxZBound);
+        newPosition.x = Mathf.Clamp(newPosition.x, gameManager.playerMinXBound, gameManager.playerMaxXBound);
 
         // Apply the clamped position as the new position
         playerRb.MovePosition(newPosition);
@@ -50,7 +49,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Shield"))
         {
             playerShield++;
-            Debug.Log($"Powerup obtained {playerShield}");
         }
 
         if (collision.gameObject.CompareTag("Asteroid"))
@@ -58,21 +56,21 @@ public class PlayerController : MonoBehaviour
             // shield drained, game over
             if (playerShield == 0)
             {
+                gameOverAudio.Play();
+
                 Destroy(gameObject);
 
                 // end game
                 gameManager.gameOver = true;
                 return;
             }
+            asteroidCollisionAudio.Play();
             playerShield--;
         }
 
         if (collision.gameObject.CompareTag("Gold"))
         {
             gameManager.score++;
-            Debug.Log(gameManager.score);
         }
     }
-
-    // TODO: add projectiles
 }

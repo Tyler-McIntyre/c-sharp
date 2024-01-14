@@ -8,9 +8,22 @@ public class GameManager : MonoBehaviour
     public bool gameOver = true;
     private bool inGameUiIsActive = false;
 
+    // bounds for enemies, powerups, and collectables
+    public readonly float minXBound = 5;
+    public readonly float maxXBound = 85;
+
+    public readonly float maxZBound = 10;
+    public readonly float minZBound = -60;
+
+    // player bounds
+    public float playerMinZBound = -39f;
+    public float playerMaxZBound = -1.5f;
+
+    public readonly float playerMinXBound = 3;
+    public readonly float playerMaxXBound = 90;
+
     public DifficultySetting difficultySetting = DifficultySetting.Undefined;
 
-    public float timer = 0;
     public int waveCount = 1;
     public int score = 0;
     
@@ -67,10 +80,6 @@ public class GameManager : MonoBehaviour
         }
 
         UpdateShieldSlider();
-
-        // increment the timer between the time this frame and the last frame was updated
-        // Can be used to help calculate the best score (more points in less time is better)
-        timer += Time.deltaTime;
     }
 
     private void ShowInGameUI()
@@ -97,8 +106,6 @@ public class GameManager : MonoBehaviour
         gameOver = false;
         // clear the screen
         FreshStart();
-
-        Debug.Log(difficultySetting);
     }
 
     private void FreshStart()

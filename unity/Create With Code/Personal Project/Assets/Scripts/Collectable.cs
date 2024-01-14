@@ -4,12 +4,15 @@ public class Collectable : MonoBehaviour
 {
     public float speed;
     public Vector3 direction;
-    public GameManager gameManager;
     private Rigidbody collectableRb;
+    private GameManager gameManager;
+    private AudioSource goldCollectedAudio;
 
     // Start is called before the first frame update
     void Start()
     {
+        GameObject audioClips = GameObject.Find("Audio Clips");
+        goldCollectedAudio = audioClips.GetComponentsInChildren<AudioSource>()[3];
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         collectableRb = GetComponent<Rigidbody>();
     }
@@ -22,7 +25,7 @@ public class Collectable : MonoBehaviour
         transform.position = new Vector3(transform.position.x, 1f, transform.position.z);
 
         // destory if it leaves the area
-        if (transform.position.z > 41)
+        if (transform.position.z > gameManager.maxZBound)
         {
             Destroy(gameObject);
         }
@@ -32,6 +35,7 @@ public class Collectable : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            goldCollectedAudio.Play();
             Destroy(gameObject);
         }
     }

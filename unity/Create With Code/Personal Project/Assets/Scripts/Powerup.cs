@@ -5,21 +5,24 @@ public class Powerup : MonoBehaviour
     public float speed;
     public Vector3 direction;
     private Rigidbody powerupRb;
+    private GameManager gameManager;
+    private AudioSource powerupAudio;
 
     private void Start()
     {
+        GameObject audioClips = GameObject.Find("Audio Clips");
+        powerupAudio = audioClips.GetComponentsInChildren<AudioSource>()[4];
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         powerupRb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        // translate doesnt account for phyics only rb does...
         powerupRb.velocity = direction * speed;
-        // Set the y position to 1
         transform.position = new Vector3(transform.position.x, 1f, transform.position.z);
 
         // destory if it leaves the area
-        if (transform.position.z > 41)
+        if (transform.position.z > gameManager.maxZBound)
         {
             Destroy(gameObject);
         }
@@ -29,6 +32,7 @@ public class Powerup : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            powerupAudio.Play();
             Destroy(gameObject);
         }
     }
