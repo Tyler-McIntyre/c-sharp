@@ -1,4 +1,4 @@
-# Retro Snake Console Game
+# Snake Console Game
 
 ### About
 implemented in C# and designed to run in a console environment. This project aims to recreate the nostalgic experience of the traditional Snake game.
