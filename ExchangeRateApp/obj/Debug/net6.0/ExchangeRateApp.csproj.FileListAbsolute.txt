@@ -1,0 +1,17 @@
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\bin\Debug\net6.0\ExchangeRateApp.exe
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\bin\Debug\net6.0\ExchangeRateApp.deps.json
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\bin\Debug\net6.0\ExchangeRateApp.runtimeconfig.json
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\bin\Debug\net6.0\ExchangeRateApp.dll
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\bin\Debug\net6.0\ExchangeRateApp.pdb
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\obj\Debug\net6.0\ExchangeRateApp.csproj.AssemblyReference.cache
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\obj\Debug\net6.0\ExchangeRateApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\obj\Debug\net6.0\ExchangeRateApp.AssemblyInfoInputs.cache
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\obj\Debug\net6.0\ExchangeRateApp.AssemblyInfo.cs
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\obj\Debug\net6.0\ExchangeRateApp.csproj.CoreCompileInputs.cache
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\obj\Debug\net6.0\ExchangeRateApp.csproj.CopyComplete
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\obj\Debug\net6.0\ExchangeRateApp.dll
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\obj\Debug\net6.0\refint\ExchangeRateApp.dll
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\obj\Debug\net6.0\ExchangeRateApp.pdb
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\obj\Debug\net6.0\ExchangeRateApp.genruntimeconfig.cache
+C:\Users\tmcin\repos\c-sharp\ExchangeRateApp\obj\Debug\net6.0\ref\ExchangeRateApp.dll
