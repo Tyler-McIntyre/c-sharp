@@ -1,0 +1,21 @@
+﻿@model WeatherApp.Models.WeatherInfo
+
+@{
+    ViewBag.Title = "Weather Information";
+}
+
+<h2>Weather Information</h2>
+
+<form asp-action="Index" method="post">
+    <input type="text" name="city" placeholder="Enter City Name" />
+    <button type="submit">Get Weather</button>
+</form>
+
+@if (Model != null && Model.City != null)
+{
+    <div>
+        <p>City: @Model.City</p>
+        <p>Temperature: @Model.Temperature</p>
+        <p>Description: @Model.WeatherDescription</p>
+    </div>
+}
