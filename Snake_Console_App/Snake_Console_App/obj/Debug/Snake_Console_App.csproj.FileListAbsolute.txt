@@ -1,0 +1,7 @@
+C:\Users\tmcin\repos\c-sharp\Snake_Console_App\Snake_Console_App\bin\Debug\Snake_Console_App.exe.config
+C:\Users\tmcin\repos\c-sharp\Snake_Console_App\Snake_Console_App\bin\Debug\Snake_Console_App.exe
+C:\Users\tmcin\repos\c-sharp\Snake_Console_App\Snake_Console_App\bin\Debug\Snake_Console_App.pdb
+C:\Users\tmcin\repos\c-sharp\Snake_Console_App\Snake_Console_App\obj\Debug\Snake_Console_App.csproj.AssemblyReference.cache
+C:\Users\tmcin\repos\c-sharp\Snake_Console_App\Snake_Console_App\obj\Debug\Snake_Console_App.csproj.CoreCompileInputs.cache
+C:\Users\tmcin\repos\c-sharp\Snake_Console_App\Snake_Console_App\obj\Debug\Snake_Console_App.exe
+C:\Users\tmcin\repos\c-sharp\Snake_Console_App\Snake_Console_App\obj\Debug\Snake_Console_App.pdb
