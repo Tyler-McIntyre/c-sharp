@@ -6,7 +6,7 @@ public class SnakeGame
     private List<Point> snake;
     private Point food;
     private int boardWidth = 30;
-    private int boardHeight = 30;
+    private int boardHeight = 20;
     private bool gameOver;
     private Direction currentDirection;
 

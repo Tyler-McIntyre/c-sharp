@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Snake_Console_App")]
+[assembly: AssemblyTitle("SnakeConsoleApp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Snake_Console_App")]
+[assembly: AssemblyProduct("SnakeConsoleApp")]
 [assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c5aa1305-72f0-4fb4-892b-f4773246bd36")]
+[assembly: Guid("858bf060-ace5-403c-96a1-e5bd23743b14")]
 
 // Version information for an assembly consists of the following four values:
 //
