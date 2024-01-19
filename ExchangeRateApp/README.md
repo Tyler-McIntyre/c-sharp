@@ -1,6 +1,6 @@
 # Exchange Rate Console Application
 ### Description
-This .NET console application is a tool designed to fetch and display currency exchange rates using the ExchangeRate-API. Users can easily retrieve real-time exchange rates between different currencies by inputting the base and target currencies. This project demonstrates the practical application of .NET, HTTP requests, and JSON data handling in C#.
+This .NET console application is a tool designed to fetch and display currency exchange rates using the ExchangeRate-API. Users can easily retrieve real-time exchange rates between different currencies by inputting the base and target currencies.
 
 ### Features
 Fetch real-time exchange rates for a wide range of currencies.
